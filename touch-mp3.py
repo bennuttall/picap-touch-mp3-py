@@ -1,8 +1,6 @@
 import MPR121
 from gpiozero import RGBLED
 from subprocess import call
-import signal
-import sys
 import pygame
 from pygame.mixer import Sound
 from glob import glob
@@ -16,13 +14,6 @@ led = RGBLED(6, 5, 26)
 
 electrodes = range(12)
 
-# handle ctrl+c gracefully
-def signal_handler(signal, frame):
-  led.off()
-  sys.exit(0)
-
-signal.signal(signal.SIGINT, signal_handler)
-
 # convert mp3s to wavs with picap-samples-to-wav
 led.blue = 1
 call("picap-samples-to-wav tracks", shell=True)
@@ -35,7 +26,7 @@ pygame.init()
 paths = glob("tracks/.wavs/*.wav")
 sounds = [Sound(path) for path in paths]
 
-while True:
+def play_sounds_when_touched():
     if sensor.touch_status_changed():
         sensor.update_touch_data()
         touched = [sensor.get_touch_data(e) for e in electrodes]
@@ -51,5 +42,11 @@ while True:
         else:
             led.off()
 
-    # sleep a bit
+running = True
+while running:
+    try:
+        play_sounds_when_touched()
+    except KeyboardInterrupt:
+        led.off()
+        running = False
     sleep(0.01)
