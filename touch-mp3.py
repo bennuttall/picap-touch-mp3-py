@@ -3,11 +3,7 @@ from subprocess import call
 import signal, sys, pygame, MPR121
 import RPi.GPIO as GPIO
 
-try:
-  sensor = MPR121.begin()
-except Exception as e:
-  print e
-  sys.exit(1)
+sensor = MPR121.begin()
 
 num_electrodes = 12
 
