@@ -1,7 +1,10 @@
-from time import sleep
-from subprocess import call
-import signal, sys, pygame, MPR121
+import MPR121
 import RPi.GPIO as GPIO
+from subprocess import call
+import signal
+import sys
+import pygame
+from time import sleep
 
 sensor = MPR121.begin()
 sensor.set_touch_threshold(40)
