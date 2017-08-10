@@ -23,8 +23,7 @@ led.off()
 pygame.mixer.pre_init(frequency=44100, channels=64, buffer=1024)
 pygame.init()
 
-paths = glob("tracks/.wavs/*.wav")
-sounds = [Sound(path) for path in paths]
+sounds = [Sound(path) for path in glob("tracks/.wavs/*.wav")]
 
 def play_sounds_when_touched():
     if sensor.touch_status_changed():
