@@ -16,18 +16,15 @@ num_electrodes = 12
 
 # handle ctrl+c gracefully
 def signal_handler(signal, frame):
-  light_rgb(0, 0, 0)
+  led.off()
   sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)
 
-def light_rgb(r, g, b):
-    led.value = (r, g, b)
-
 # convert mp3s to wavs with picap-samples-to-wav
-light_rgb(0, 0, 1)
+led.blue = 1
 call("picap-samples-to-wav tracks", shell = True)
-light_rgb(0, 0, 0)
+led.off()
 
 # initialize mixer and pygame
 pygame.mixer.pre_init(frequency = 44100, channels = 64, buffer = 1024)
@@ -59,9 +56,9 @@ while True:
 
     # light up red led if we have any touch registered currently
     if is_any_touch_registered:
-      light_rgb(1, 0, 0)
+      led.red = 1
     else:
-      light_rgb(0, 0, 0)
+      led.off()
 
   # sleep a bit
   sleep(0.01)
