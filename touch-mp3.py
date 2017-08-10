@@ -4,6 +4,7 @@ from subprocess import call
 import signal
 import sys
 import pygame
+from pygame.mixer import Sound
 from glob import glob
 from time import sleep
 
@@ -32,6 +33,7 @@ pygame.mixer.pre_init(frequency=44100, channels=64, buffer=1024)
 pygame.init()
 
 paths = glob("tracks/.wavs/*.wav")
+sounds = [Sound(path) for path in paths]
 
 while True:
     if sensor.touch_status_changed():
@@ -41,8 +43,7 @@ while True:
 
         for n in new_touched:
             print("playing sound: {}".format(n))
-            path = paths[n]
-            sound = pygame.mixer.Sound(path)
+            sound = sounds[n]
             sound.play()
 
         if any(touched):
