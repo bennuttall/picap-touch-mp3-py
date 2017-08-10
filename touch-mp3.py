@@ -14,7 +14,7 @@ sensor.set_release_threshold(20)
 
 led = RGBLED(6, 5, 26)
 
-num_electrodes = 12
+electrodes = range(12)
 
 # handle ctrl+c gracefully
 def signal_handler(signal, frame):
@@ -38,12 +38,12 @@ sounds = [Sound(path) for path in paths]
 while True:
     if sensor.touch_status_changed():
         sensor.update_touch_data()
-        touched = [sensor.get_touch_data(n) for n in range(num_electrodes)]
-        new_touched = [n for n in range(num_electrodes) if sensor.is_new_touch(n)]
+        touched = [sensor.get_touch_data(e) for e in electrodes]
+        new_touched = [e for e in electrodes if sensor.is_new_touch(e)]
 
-        for n in new_touched:
-            print("playing sound: {}".format(n))
-            sound = sounds[n]
+        for e in new_touched:
+            print("playing sound: {}".format(e))
+            sound = sounds[e]
             sound.play()
 
         if any(touched):
