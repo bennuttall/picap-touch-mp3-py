@@ -38,15 +38,15 @@ while True:
         sensor.update_touch_data()
         is_any_touch_registered = False
 
-        for i in range(num_electrodes):
-            if sensor.get_touch_data(i):
+        for n in range(num_electrodes):
+            if sensor.get_touch_data(n):
                 # check if touch is registred to set the led status
                 is_any_touch_registered = True
 
-            if sensor.is_new_touch(i):
+            if sensor.is_new_touch(n):
                 # play sound associated with that touch
-                print "playing sound: " + str(i)
-                path = paths[i]
+                print("playing sound: {}".format(n))
+                path = paths[n]
                 sound = pygame.mixer.Sound(path)
                 sound.play()
 
