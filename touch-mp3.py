@@ -1,5 +1,5 @@
 import MPR121
-import RPi.GPIO as GPIO
+from gpiozero import RGBLED
 from subprocess import call
 import signal
 import sys
@@ -10,6 +10,8 @@ sensor = MPR121.begin()
 sensor.set_touch_threshold(40)
 sensor.set_release_threshold(20)
 
+led = RGBLED(6, 5, 26)
+
 num_electrodes = 12
 
 # handle ctrl+c gracefully
@@ -19,25 +21,8 @@ def signal_handler(signal, frame):
 
 signal.signal(signal.SIGINT, signal_handler)
 
-# set up LED
-red_led_pin = 6
-green_led_pin = 5
-blue_led_pin = 26
-
 def light_rgb(r, g, b):
-  # we are inverting the values, because the LED is active LOW
-  # LOW - on
-  # HIGH - off
-  GPIO.output(red_led_pin, not r)
-  GPIO.output(green_led_pin, not g)
-  GPIO.output(blue_led_pin, not b)
-
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
-
-GPIO.setup(red_led_pin, GPIO.OUT)
-GPIO.setup(green_led_pin, GPIO.OUT)
-GPIO.setup(blue_led_pin, GPIO.OUT)
+    led.value = (r, g, b)
 
 # convert mp3s to wavs with picap-samples-to-wav
 light_rgb(0, 0, 1)
