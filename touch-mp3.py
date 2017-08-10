@@ -4,6 +4,7 @@ from subprocess import call
 import signal
 import sys
 import pygame
+from glob import glob
 from time import sleep
 
 sensor = MPR121.begin()
@@ -30,7 +31,7 @@ led.off()
 pygame.mixer.pre_init(frequency=44100, channels=64, buffer=1024)
 pygame.init()
 
-paths = ["tracks/.wavs/TRACK{0:03d}.wav".format(n) for n in range(num_electrodes)]
+paths = glob("tracks/.wavs/*.wav")
 
 while True:
   if sensor.touch_status_changed():
