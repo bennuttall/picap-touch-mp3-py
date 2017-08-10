@@ -30,13 +30,7 @@ led.off()
 pygame.mixer.pre_init(frequency=44100, channels=64, buffer=1024)
 pygame.init()
 
-# load paths
-paths = []
-for i in range(num_electrodes):
-  path = "tracks/.wavs/TRACK{0:03d}.wav".format(i)
-  print "loading file: " + path
-
-  paths.append(path)
+paths = ["tracks/.wavs/TRACK{0:03d}.wav".format(n) for n in range(num_electrodes)]
 
 while True:
   if sensor.touch_status_changed():
