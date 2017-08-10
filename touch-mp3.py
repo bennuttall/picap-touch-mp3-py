@@ -23,11 +23,11 @@ signal.signal(signal.SIGINT, signal_handler)
 
 # convert mp3s to wavs with picap-samples-to-wav
 led.blue = 1
-call("picap-samples-to-wav tracks", shell = True)
+call("picap-samples-to-wav tracks", shell=True)
 led.off()
 
 # initialize mixer and pygame
-pygame.mixer.pre_init(frequency = 44100, channels = 64, buffer = 1024)
+pygame.mixer.pre_init(frequency=44100, channels=64, buffer=1024)
 pygame.init()
 
 # load paths
