@@ -10,7 +10,7 @@ sensor = MPR121.begin()
 sensor.set_touch_threshold(40)
 sensor.set_release_threshold(20)
 
-led = RGBLED(6, 5, 26)
+led = RGBLED(6, 5, 26, active_high=False)
 
 electrodes = range(12)
 
