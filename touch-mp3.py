@@ -36,22 +36,16 @@ paths = glob("tracks/.wavs/*.wav")
 while True:
     if sensor.touch_status_changed():
         sensor.update_touch_data()
-        is_any_touch_registered = False
+        touched = [sensor.get_touch_data(n) for n in range(num_electrodes)]
+        new_touched = [n for n in range(num_electrodes) if sensor.is_new_touch(n)]
 
-        for n in range(num_electrodes):
-            if sensor.get_touch_data(n):
-                # check if touch is registred to set the led status
-                is_any_touch_registered = True
+        for n in new_touched:
+            print("playing sound: {}".format(n))
+            path = paths[n]
+            sound = pygame.mixer.Sound(path)
+            sound.play()
 
-            if sensor.is_new_touch(n):
-                # play sound associated with that touch
-                print("playing sound: {}".format(n))
-                path = paths[n]
-                sound = pygame.mixer.Sound(path)
-                sound.play()
-
-        # light up red led if we have any touch registered currently
-        if is_any_touch_registered:
+        if any(touched):
             led.red = 1
         else:
             led.off()
