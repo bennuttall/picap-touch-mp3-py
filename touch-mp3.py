@@ -1,6 +1,6 @@
 import MPR121
 from gpiozero import RGBLED
-from subprocess import call
+import subprocess
 import pygame
 from pygame.mixer import Sound
 from glob import glob
@@ -16,7 +16,7 @@ electrodes = range(12)
 
 # convert mp3s to wavs with picap-samples-to-wav
 led.blue = 1
-call("picap-samples-to-wav tracks", shell=True)
+subprocess.call("picap-samples-to-wav tracks", shell=True)
 led.off()
 
 # initialize mixer and pygame
