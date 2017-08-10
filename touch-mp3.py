@@ -4,18 +4,10 @@ import signal, sys, pygame, MPR121
 import RPi.GPIO as GPIO
 
 sensor = MPR121.begin()
+sensor.set_touch_threshold(40)
+sensor.set_release_threshold(20)
 
 num_electrodes = 12
-
-# this is the touch threshold - setting it low makes it more like a proximity trigger default value is 40 for touch
-touch_threshold = 40
-
-# this is the release threshold - must ALWAYS be smaller than the touch threshold default value is 20 for touch
-release_threshold = 20
-
-# set the thresholds
-sensor.set_touch_threshold(touch_threshold)
-sensor.set_release_threshold(release_threshold)
 
 # handle ctrl+c gracefully
 def signal_handler(signal, frame):
